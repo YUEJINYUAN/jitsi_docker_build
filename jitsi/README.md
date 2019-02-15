@@ -1,4 +1,4 @@
-#datainsights视频服务
+##视频服务
 
 使用注意事项：
 
@@ -34,7 +34,7 @@ https://github.com/jitsi/jitsi-meet
 的介绍，以上全部基于服务器&pc+web客户端。
 
 
-创建者：余鹏
+创建者：YUEJINYUAN
 
 
 
