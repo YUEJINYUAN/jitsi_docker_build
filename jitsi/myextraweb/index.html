@@ -1,0 +1,32 @@
+<head>  
+    <title>视频测试</title>  
+    <meta charset="utf-8" />  
+    <script src="js/external_api.js"></script>
+</head>  
+<body>  
+   <div id="meet"></div>  
+</body>  
+    <script>  
+    var domain = "192.168.10.23:8443";  
+    var ui = {  
+    TOOLBAR_BUTTONS: [  
+    "microphone", "camera", "desktop",  
+    "chat", "filmstrip",  
+    "sharedvideo","settings",  
+    "recording"  
+    ],  
+    JITSI_WATERMARK_LINK: 'http://www.test.com',  
+    MAIN_TOOLBAR_BUTTONS: ['camera']  
+    }  
+     
+    var options = {  
+    roomName: "test",  
+    width: 1000,  
+    height: 700,  
+    noSsl: false,  
+    interfaceConfigOverwrite: ui,  
+    parentNode: document.querySelector('#meet')  
+    }  
+    var api = new JitsiMeetExternalAPI(domain, options);  
+     
+    </script>

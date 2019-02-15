@@ -1,0 +1,36 @@
+#!/usr/bin/with-contenv bash
+
+PROSODY_CFG="/config/prosody.cfg.lua"
+
+if [[ ! -d /config/data ]]; then
+    mkdir -p /config/data
+    chmod 777 /config/data
+fi
+
+if [[ ! -f $PROSODY_CFG ]]; then
+    cp -r /defaults/* /config
+    tpl /defaults/conf.d/jitsi-meet.cfg.lua > /config/conf.d/jitsi-meet.cfg.lua
+
+    prosodyctl --config $PROSODY_CFG register $JICOFO_AUTH_USER $XMPP_AUTH_DOMAIN $JICOFO_AUTH_PASSWORD
+    prosodyctl --config $PROSODY_CFG register $JVB_AUTH_USER $XMPP_AUTH_DOMAIN $JVB_AUTH_PASSWORD
+
+    if [[ ! -z $JIGASI_XMPP_USER ]] && [[ ! -z $JIGASI_XMPP_PASSWORD ]]; then
+        prosodyctl --config $PROSODY_CFG register $JIGASI_XMPP_USER $XMPP_AUTH_DOMAIN $JIGASI_XMPP_PASSWORD
+    fi
+fi
+
+mkdir -p /config/certs
+
+if [[ ! -f /config/certs/$XMPP_DOMAIN.crt ]]; then
+    # echo for using all default values
+    echo | prosodyctl --config $PROSODY_CFG cert generate $XMPP_DOMAIN
+fi
+
+if [[ ! -f /config/certs/$XMPP_AUTH_DOMAIN.crt ]]; then
+    # echo for using all default values
+    echo | prosodyctl --config $PROSODY_CFG cert generate $XMPP_AUTH_DOMAIN
+fi
+
+# certs will be created in /config/data
+mv /config/data/*.{crt,key} /config/certs/
+rm -f /config/data/*.cnf
